@@ -15,7 +15,7 @@
 
 namespace tutorial {
 
-  template <typename TDev, typename = std::enable_if_t<alpaka::isDevice<TDev>>>
+  template <alpaka::concepts::Device TDev>
   class PortableDeviceTable {
     static_assert(not std::is_same_v<TDev, alpaka_common::DevHost>,
                   "Use PortableHostTable instead of PortableDeviceTable<DevHost>");
@@ -31,7 +31,7 @@ namespace tutorial {
       assert(reinterpret_cast<uintptr_t>(buffer_.data()) % alignof(float) == 0);
     }
 
-    template <typename TQueue, typename = std::enable_if_t<alpaka::isQueue<TQueue>>>
+    template <alpaka::concepts::Queue TQueue>
     PortableDeviceTable(TQueue const& queue, int x_bins, int y_bins)
         : buffer_{cms::alpakatools::make_device_buffer<std::byte[]>(queue, Table::size_bytes(x_bins, y_bins))},
           table_{x_bins, y_bins, std::span<std::byte>(buffer_.data(), Table::size_bytes(x_bins, y_bins))}  //

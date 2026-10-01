@@ -45,7 +45,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
       JetsDeviceCollection const& uncorrected = event.get(uncorrected_);
 
       // Allocate a new SoA for the corrected jets.
-      JetsDeviceCollection corrected(uncorrected.view().metadata().size(), event.queue());
+      JetsDeviceCollection corrected(event.queue(), uncorrected.view().metadata().size());
 
       // Apply the corrections and fill the new SoA.
       PFJetsSoACorrectorAlgo::applyJetCorrections(

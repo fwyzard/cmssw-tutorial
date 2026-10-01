@@ -14,7 +14,7 @@
 namespace tutorial::traits {
 
   // trait for a generic struct-based product
-  template <typename TDev, typename = std::enable_if_t<alpaka::isDevice<TDev>>>
+  template <alpaka::concepts::Device TDev>
   struct PortableTableTrait {
     using type = ::tutorial::PortableDeviceTable<TDev>;
   };
@@ -30,7 +30,7 @@ namespace tutorial::traits {
 namespace tutorial {
 
   // type alias for a generic struct-based product
-  template <typename TDev, typename = std::enable_if_t<alpaka::isDevice<TDev>>>
+  template <alpaka::concepts::Device TDev>
   using PortableTable = typename ::tutorial::traits::PortableTableTrait<TDev>::type;
 
 }  // namespace tutorial
@@ -38,11 +38,9 @@ namespace tutorial {
 // define how to copy PortableTable between host and device
 namespace cms::alpakatools {
 
-  template <typename TDev>
-    requires alpaka::isDevice<TDev>
+  template <alpaka::concepts::Device TDev>
   struct CopyToHost<tutorial::PortableDeviceTable<TDev>> {
-    template <typename TQueue>
-      requires alpaka::isQueue<TQueue>
+    template <alpaka::concepts::Queue TQueue>
     static auto copyAsync(TQueue& queue, tutorial::PortableDeviceTable<TDev> const& src) {
       tutorial::PortableHostTable dst(queue, src.x_bins(), src.y_bins());
       alpaka::memcpy(queue, dst.buffer(), src.buffer());

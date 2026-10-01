@@ -58,7 +58,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
 
       // Initialise the variables use to hold the results of the asynchronous code
       *size_ = 0;
-      selection_.emplace(jets.view().metadata().size(), event.queue());
+      selection_.emplace(event.queue(), jets.view().metadata().size());
 
       // Apply the selection cuts and count how many jets pass the selection.
       InvariantMassSelection const* cuts = cuts_.get(event.queue()).data();
@@ -77,7 +77,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
       int combos = size * (size - 1) / 2 + size * (size - 1) * (size - 2) / 6;
       edm::LogInfo("InvariantMassSelector")
           << "Found " << size << " jets passing the selection cuts, will allocate space for " << combos << " ntuplets";
-      TripletsDeviceCollection ntuplets(combos, event.queue());
+      TripletsDeviceCollection ntuplets(event.queue(), combos);
 
       // Fill the JetsDeviceCollection with zeroes
       ntuplets.zeroInitialise(event.queue());

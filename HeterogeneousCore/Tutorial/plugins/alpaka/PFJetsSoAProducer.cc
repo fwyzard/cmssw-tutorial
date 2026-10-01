@@ -33,7 +33,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
 
     void produce(edm::StreamID sid, device::Event& event, device::EventSetup const&) const override {
       auto const& jets = event.get(jets_);
-      JetsHostCollection soa(jets.size(), event.queue());
+      JetsHostCollection soa(event.queue(), jets.size());
       for (size_t i = 0; i < jets.size(); ++i) {
         auto const& jet = jets[i];
         soa.view()[i] = {

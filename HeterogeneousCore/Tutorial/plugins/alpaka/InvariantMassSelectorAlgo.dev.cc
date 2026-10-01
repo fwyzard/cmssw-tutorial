@@ -3,9 +3,8 @@
 #include "DataFormats/HeterogeneousTutorial/interface/JetsSoA.h"
 #include "DataFormats/HeterogeneousTutorial/interface/TripletsSoA.h"
 #include "HeterogeneousCore/AlpakaInterface/interface/config.h"
-#include "HeterogeneousCore/AlpakaInterface/interface/workdivision.h"
-#include "HeterogeneousCore/AlpakaInterface/interface/atomicInc.h"
 #include "HeterogeneousCore/AlpakaInterface/interface/atomicIncSaturate.h"
+#include "HeterogeneousCore/AlpakaInterface/interface/workdivision.h"
 #include "HeterogeneousCore/Tutorial/interface/JetsSelectionSoA.h"
 
 #include "InvariantMassSelectorAlgo.h"
@@ -30,7 +29,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
             fabsf(jet.eta()) < cuts->eta_max) {
           selection[i] = true;
           // Increment the number of selected jets atomically across all kernel blocks.
-          atomicInc(acc, size, alpaka::hierarchy::Blocks{});
+          alpaka::atomicInc(acc, size, alpaka::hierarchy::Blocks{});
         } else {
           selection[i] = false;
         }
@@ -102,7 +101,8 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
 
         if (m2 >= cuts->mass_min * cuts->mass_min and m2 < cuts->mass_max * cuts->mass_max) {
           // Increment the number of ntuplets atomically across all kernel blocks.
-          int index = atomicIncSaturate(acc, &ntuplets.size(), ntuplets.metadata().size(), alpaka::hierarchy::Blocks{});
+          int index = cms::alpakatools::atomicIncSaturate(
+              acc, &ntuplets.size(), ntuplets.metadata().size(), alpaka::hierarchy::Blocks{});
 
           // Check that index did not overflow.
           if (index >= ntuplets.metadata().size()) {
@@ -194,7 +194,8 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE::tutorial {
 
         if (m2 >= cuts->mass_min * cuts->mass_min and m2 < cuts->mass_max * cuts->mass_max) {
           // Increment the number of ntuplets atomically across all kernel blocks.
-          int index = atomicIncSaturate(acc, &ntuplets.size(), ntuplets.metadata().size(), alpaka::hierarchy::Blocks{});
+          int index = cms::alpakatools::atomicIncSaturate(
+              acc, &ntuplets.size(), ntuplets.metadata().size(), alpaka::hierarchy::Blocks{});
 
           // Check that index did not overflow.
           if (index >= ntuplets.metadata().size()) {

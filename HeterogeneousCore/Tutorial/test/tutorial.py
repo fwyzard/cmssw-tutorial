@@ -1,6 +1,8 @@
 import FWCore.ParameterSet.Config as cms
-  
-process = cms.Process("TUTORIAL")
+
+# use the Phase-2 era corresponding to the D128 geometry
+from Configuration.Eras.Era_Phase2C26I13M9_cff import Phase2C26I13M9
+process = cms.Process("TUTORIAL", Phase2C26I13M9)
 
 # enable multithreading
 process.options.numberOfThreads = 8
@@ -13,17 +15,17 @@ process.load("Configuration.StandardSequences.Accelerators_cff")
 from IOPool.Input.modules import PoolSource
 process.source = PoolSource(
     fileNames = [
-        # dasgoclient --query 'file dataset=/RelValTTbar_14TeV/CMSSW_15_0_0-PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/GEN-SIM-DIGI-RAW' | head -n 10
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/749ab261-6527-4e7f-b57a-08b7118954a8.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/1c2caeef-e246-4b6d-bebc-4fb6df4f9bbd.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/b000989f-2100-4550-a776-1e10f9ecfbad.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/92857a1a-c082-4092-895a-01557f3194a2.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/a383e5fc-3bd7-4a73-95ef-240761cc60b2.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/d3e3e977-a027-4afa-a026-fc4ba8f9ac37.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/8c24243d-e4a9-43d8-96fb-8d61b6eb6ab1.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/204ee874-198f-4ba6-ab18-32164a3e0e59.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/c699d6a4-3651-4c51-bc2c-258d4f86a2cd.root",
-        "/store/relval/CMSSW_15_0_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v3/2580000/994fc44d-b234-44f7-a98b-bc9c83be2a84.root",
+        # dasgoclient --query 'file dataset=/RelValTTbar_14TeV/CMSSW_20_1_0_pre3-PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/GEN-SIM-DIGI-RAW' | head
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/fc29a6bd-b4bc-4038-9c49-d44eb9724992.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/653dcc08-10c5-497e-8394-f31096868d42.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/f454bd04-4109-4514-a91f-751205450ceb.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/0ad010d4-030c-42ac-9ce9-9fb8c81fc1e2.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/2be2503a-df34-4c1d-ae58-d9ca27173364.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/bc46955d-4ad6-4cc2-9848-e11a6cff6252.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/88fb9d38-3cab-4bb5-b7d9-ff79931ebe51.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/9c7e1073-feb2-4545-98a9-a1d8dcae1075.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/698a0144-1fa6-4637-9c2d-e48df395f1c6.root",
+        "/store/relval/CMSSW_20_1_0_pre3/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_20260903_192421_RV19-v1/2830000/2c3bcfee-f87b-4bf0-8c8f-af5c5b08b261.root",
     ])
 
 # process only 1000 events
@@ -35,9 +37,12 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 # do not print the time and trigger reports at the end of the job
 process.options.wantSummary = False
 
-# configure the global tag
+# load the Phase-2 D128 geometry
+process.load("Configuration.Geometry.GeometryExtendedRun4D128Reco_cff")
+
+# configure the global tag for the D128 geometry (150X_mcRun4_realistic_v1 with the T35 tracker conditions)
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(None, globaltag = '142X_mcRun3_2025_realistic_v7')
+process.GlobalTag = GlobalTag(None, globaltag = 'auto:phase2_realistic_T35')
 
 # import the definition of the Tutorial modules
 from HeterogeneousCore.Tutorial.modules import *

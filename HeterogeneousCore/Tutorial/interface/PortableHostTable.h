@@ -27,7 +27,7 @@ namespace tutorial {
       assert(reinterpret_cast<uintptr_t>(buffer_.data()) % alignof(float) == 0);
     }
 
-    template <typename TQueue, typename = std::enable_if_t<alpaka::isQueue<TQueue>>>
+    template <alpaka::concepts::Queue TQueue>
     PortableHostTable(TQueue const& queue, int x_bins, int y_bins)
         : buffer_{cms::alpakatools::make_host_buffer<std::byte[]>(queue, Table::size_bytes(x_bins, y_bins))},
           table_{x_bins, y_bins, std::span<std::byte>(buffer_.data(), Table::size_bytes(x_bins, y_bins))}  //
